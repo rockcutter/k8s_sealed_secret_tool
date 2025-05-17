@@ -1,2 +1,5 @@
 sealed_secret.yaml
+secret.yaml
+secret*.json
 .env
+env
