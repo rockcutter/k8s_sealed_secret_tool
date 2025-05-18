@@ -10,7 +10,7 @@ REMOTE_TMP_DIR := /tmp/k8s_sealed_secret_tool/secret
 
 KUBESEAL_EXTRA_ARGS := 
 
-.PHONY: help
+.PHONY: help all require_ssh_target require_secret_name require_secret_namespace scp scp/env scp/secret secret seal fetch_secret decode_secret encode_secret rm
 help:
 	less Makefile
 
@@ -39,7 +39,6 @@ scp/secret: require_ssh_target
 	$(SSH) $(SSH_TARGET) "mkdir -p $(REMOTE_TMP_DIR)"
 	$(SCP) ./secret.json $(SSH_TARGET):$(REMOTE_TMP_DIR)/secret.json
 
-.PHONY: fetch
 secret: require_secret_name require_ssh_target
 	$(SSH) $(SSH_TARGET) "$(KUBECTL) create secret generic $(SECRET_NAME) --from-env-file=$(REMOTE_TMP_DIR)/tmp.env --dry-run=client -o json > $(REMOTE_TMP_DIR)/secret.json"
 
