@@ -57,7 +57,6 @@ fetch_secret: require_secret_name require_ssh_target require_secret_namespace
 			-n $(SECRET_NAMESPACE) \
 			-o json" \
 		> secret.json 
-		| jq ' .data |= with_entries(.value |= @base64d)' > secret_base64d.json
 
 decode_secret: 
 	cat secret.json \
